@@ -7,9 +7,11 @@ const errorHandler = (err, req, res, next) => {
   } else if (err.name == "Invalid Data") {
     code = 400;
     msg = err.msg;
+  } else if (err.name == "There's something wrong while updating task") {
+    code = 400;
+    msg = err.msg;
   }
   res.status(code).json({ error: msg });
 };
-
 
 module.exports = errorHandler;
