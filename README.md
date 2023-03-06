@@ -105,7 +105,7 @@
 
 ## Update Data
 
-    PUT /task/_id
+    PATCH /task/_id
 
 > Request Params
 
