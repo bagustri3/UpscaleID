@@ -1,13 +1,14 @@
 const errorHandler = (err, req, res, next) => {
   let code = 500;
   let msg = "ISE";
-  if (err.name == "Data Not Found") {
+  if (err.name == "Data not found") {
     code = 404;
     msg = err.name;
-  } else if (err.name == "Unauthorized") {
-    code = 401;
-    msg = err.name;
+  } else if (err.name == "Invalid Data") {
+    code = 400;
+    msg = err.msg;
   }
+  res.status(code).json({ error: msg });
 };
 
 
