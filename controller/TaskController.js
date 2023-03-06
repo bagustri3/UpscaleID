@@ -5,7 +5,7 @@ class TaskController {
     try {
       const { name, description, status } = req.body;
       const result = await Task.create({ name, description, status });
-      if (!result.acknowledged) {
+      if (!result) {
         throw {
           name: "Invalid Data",
           msg: "Error While Inserting data into database",
@@ -16,12 +16,13 @@ class TaskController {
         .status(201)
         .json({ _id: result.insertedId, name, description, status });
     } catch (error) {
+        console.log(error);
       throw error;
     }
   }
   static async find(req, res, next) {
     try {
-      const result = await Task.find();
+      const result = await Task.findAll();
       res.status(200).json(result);
     } catch (error) {
       throw error;
@@ -31,9 +32,11 @@ class TaskController {
     try {
       const { id } = req.params;
       const result = await Task.findOne(id);
+      console.log(result);
       if (!result) throw { name: "Data not found" };
       res.status(200).json(result);
     } catch (error) {
+        console.log(error);
       throw error;
     }
   }
@@ -42,7 +45,7 @@ class TaskController {
         const { id } = req.params;
         const find = await Task.findOne(id);
         if(!find) throw { name: "Data not found" };
-        const result = await Task.deleteOne(id);
+        const result = await Task.delete(id);
         if(!result.acknowledged) throw { name: "Data not found" };
         res.status(200).json(result);
     } catch (error) {
@@ -55,7 +58,7 @@ static async update(req, res, next) {
         const { name, description, status } = req.body;
         const find = await Task.findOne(id);
         if(!find) throw { name: "Data not found" };
-        const result = await Task.updateOne(id, { name, description, status });
+        const result = await Task.update(id, { name, description, status });
         if(!result.acknowledged) throw { name: "There's something wrong while updating task" };
         console.log(result);
         res.status(200).json(result);

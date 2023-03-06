@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const router = require("./router");
 const { mongoConnect } = require("./config/mongodb");
 const errorHandler = require("./middlewares/ErrorHandler");
 const port = 3000;
@@ -8,7 +9,7 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(router);
 app.use(errorHandler);
 
 mongoConnect().then(() => {
